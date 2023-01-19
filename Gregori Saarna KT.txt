@@ -1,0 +1,42 @@
+#Gregori_Saarna
+#12.01_2023
+#امتحان it22
+
+
+#Faili nime küsimine
+$1input = read-host "Kirjuta xml faili nimi: "
+
+
+
+#XMl faili kontrollimine
+if($1input -notmatch "$_.xml")
+{
+    DO
+    {
+        write-host "vale failinimi proovi uuesti "
+        $1input = read-host "kirjuta nüüd õigesti (customers.xml)<---- see on õige: "
+    }
+   Until("")
+}
+
+$xml = [xml](Get-Content $dir\$1input)
+$rows = $xml.customers.customer
+
+#see kirjtuab faili valmis
+
+foreach($row in $rows)
+{
+    $nimi = $row.full_name
+    New-Item $dir\customers\$nimi -ItemType Directory
+    new-item $dir\customers\$nimi\$info.txt
+    $row >> $dir\customers\$nimi\$info.txt
+}
+
+
+# 4. Loo PS skript, mis loob failides olevale kasutajale temanimelise kataloogi koos tema andmetega
+#   (customers.xml)
+#   lisa kommentaar Ã¼lesande eesmÃ¤rgiga, autor ja kuupÃ¤ev
+#   kÃ¼sib kasutajalt xml failinime
+#   kui fail pole xml, siis programm annab sellest teada ja kÃ¼sib uuesti
+#   kood leiab kliendi nime ning loob sellenimelise kataloogi
+#   kliendinimelisse kataloogi salvestatakse kÃµik andmed tekstikujul (tÃ¤isaadress ja kontakt)
